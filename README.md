@@ -8,6 +8,18 @@ replacement for it. This is a plain app: run it, a page opens in your
 browser, type a prompt, pictures appear. Built the same way as Disco
 UI, free forever.
 
+![Kandinsky UI with a generated image](https://github.com/user-attachments/assets/725aa732-4f06-47eb-9723-8914aff72c7f)
+
+*Kandinsky UI with a generated image*
+
+![Golden cyborg portrait made with Kandinsky UI](https://github.com/user-attachments/assets/bc4680fa-b2d6-43cc-a200-4d8396f564db)
+
+*Example image made with the app: a golden cyborg portrait*
+
+![Sailing ship in a sunlit library made with Kandinsky UI](https://github.com/user-attachments/assets/4c5ebb94-2819-4dd9-b3dd-df383ec017c6)
+
+*Example image made with the app: a sailing ship in a sunlit library*
+
 ## What it does
 
 - Text-to-image generation on your own GPU -- no cloud, no account
