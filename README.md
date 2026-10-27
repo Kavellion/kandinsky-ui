@@ -1,4 +1,5 @@
 # Kandinsky UI
+Easiest install: grab the bundled zip from the Releases tab — no Python setup needed.
 
 **Kandinsky 2.2, without Jupyter and without Colab.**
 
@@ -7,6 +8,18 @@ look of its own -- a different engine from Disco Diffusion, not a
 replacement for it. This is a plain app: run it, a page opens in your
 browser, type a prompt, pictures appear. Built the same way as Disco
 UI, free forever.
+
+![Kandinsky UI with a generated image](https://github.com/user-attachments/assets/725aa732-4f06-47eb-9723-8914aff72c7f)
+
+*Kandinsky UI with a generated image*
+
+![Golden cyborg portrait made with Kandinsky UI](https://github.com/user-attachments/assets/bc4680fa-b2d6-43cc-a200-4d8396f564db)
+
+*Example image made with the app: a golden cyborg portrait*
+
+![Sailing ship in a sunlit library made with Kandinsky UI](https://github.com/user-attachments/assets/4c5ebb94-2819-4dd9-b3dd-df383ec017c6)
+
+*Example image made with the app: a sailing ship in a sunlit library*
 
 ## What it does
 
@@ -49,12 +62,8 @@ No animation, no upscaling.
 ## Install
 
 1. Download this folder and unzip it, or `git clone https://github.com/Kavellion/kandinsky-ui.git`. Python is included -- there is nothing to install first.
-2. Double-click `install.bat` and wait -- it sets up pip in the
-   bundled Python and installs PyTorch with CUDA plus the packages.
-   Run it again if anything interrupts it; it resumes where it
-   stopped.
-3. Double-click `run.bat`. A page opens in your browser. Type a
-   prompt and hit Generate.
+2. Double-click `install.bat` and wait -- it sets up pip in the bundled Python and installs PyTorch with CUDA plus the packages. Run it again if anything interrupts it; it resumes where it stopped.
+3. Double-click `run.bat`. A page opens in your browser. Type a prompt and hit Generate.
 
 ## First test
 
