@@ -1,4 +1,5 @@
 # Kandinsky UI
+Easiest install: grab the bundled zip from the Releases tab — no Python setup needed.
 
 **Kandinsky 2.2, without Jupyter and without Colab.**
 
