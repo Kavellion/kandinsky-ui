@@ -1,69 +1,82 @@
 @echo off
-REM Kandinsky UI one-click installer (Windows).
+REM Kandinsky UI one-click installer for Windows.
+REM
+REM Python is INCLUDED in this package, in the python_embeded folder,
+REM Python 3.12, ComfyUI portable style. There is nothing to install
+REM first, no venv is created, and no Python on your system is
+REM touched or needed -- if you have no Python at all, this still
+REM works.
 REM
 REM What it does:
-REM   1. Creates a Python virtual environment (venv) in this folder.
-REM   2. Installs PyTorch with CUDA support (needs an NVIDIA GPU + a
-REM      recent driver) and the rest of the requirements.
+REM   1. Bootstraps pip into the bundled Python, first run only,
+REM      using the bundled get-pip.py.
+REM   2. Installs PyTorch with CUDA support, needs an NVIDIA GPU and
+REM      a recent driver, and the rest of the requirements, into
+REM      python_embeded\Lib\site-packages.
 REM   3. Creates images_out\ for finished pictures.
 REM
 REM What it does NOT do:
 REM   - Download the Kandinsky model weights. Diffusers downloads the
-REM     prior + decoder (about 8-12 GB total) from Hugging Face on the
-REM     first Generate, into the Hugging Face cache on your user
+REM     prior and decoder, about 8-12 GB total, from Hugging Face on
+REM     the first Generate, into the Hugging Face cache on your user
 REM     profile -- not into this folder.
 REM
-REM Requirements: Windows, Python 3.10 or newer on your PATH, an NVIDIA
-REM GPU (12 GB recommended), about 20 GB free disk. Everything here is
-REM free -- no account, no payment, no server.
+REM Requirements: Windows, an NVIDIA GPU, 12 GB recommended, about
+REM 20 GB free disk. Everything here is free -- no account, no
+REM payment, no server.
 
 setlocal
 cd /d "%~dp0"
 
-where python >nul 2>&1
-if errorlevel 1 (
-    echo.
-    echo Python was not found. Install Python 3.10 or newer from
-    echo python.org, tick "Add python.exe to PATH", then run this again.
-    echo.
-    pause
-    exit /b 1
-)
+if exist python_embeded\python.exe goto HavePython
+echo.
+echo The bundled Python in python_embeded is missing.
+echo Re-download or fully re-extract this package, then run
+echo this file again.
+echo.
+pause
+exit /b 1
 
-echo Python found:
-python --version
+:HavePython
+echo Bundled Python:
+python_embeded\python.exe --version
 
-if not exist venv (
-    echo Creating virtual environment...
-    python -m venv venv
-    if errorlevel 1 (
-        echo Failed to create the virtual environment.
-        pause
-        exit /b 1
-    )
-)
+if exist python_embeded\Scripts\pip.exe goto HavePip
+echo Setting up pip for the bundled Python - first run only...
+python_embeded\python.exe python_embeded\get-pip.py --no-warn-script-location
+if not errorlevel 1 goto HavePip
+echo.
+echo Pip setup failed. Check your internet connection,
+echo then run this again.
+echo.
+pause
+exit /b 1
 
-call venv\Scripts\activate.bat
-python -m pip install --upgrade pip
+:HavePip
+python_embeded\python.exe -m pip install --no-warn-script-location --upgrade pip
 
-echo Installing PyTorch with CUDA support (this is the big download)...
-pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
-if errorlevel 1 (
-    echo PyTorch install failed. Check your internet connection and
-    echo that your GPU driver is up to date, then run this again.
-    pause
-    exit /b 1
-)
+echo Installing PyTorch with CUDA support - this is the big download...
+python_embeded\python.exe -m pip install --no-warn-script-location torch torchvision --index-url https://download.pytorch.org/whl/cu121
+if not errorlevel 1 goto TorchOk
+echo.
+echo PyTorch install failed. Check your internet connection and
+echo that your GPU driver is up to date, then run this again.
+echo.
+pause
+exit /b 1
 
+:TorchOk
 echo Installing the remaining packages...
-pip install -r requirements.txt
-if errorlevel 1 (
-    echo Package install failed. Run this again -- pip resumes
-    echo downloads it already finished.
-    pause
-    exit /b 1
-)
+python_embeded\python.exe -m pip install --no-warn-script-location -r requirements.txt
+if not errorlevel 1 goto ReqOk
+echo.
+echo Package install failed. Run this again -- pip resumes
+echo downloads it already finished.
+echo.
+pause
+exit /b 1
 
+:ReqOk
 if not exist images_out mkdir images_out
 
 echo.
